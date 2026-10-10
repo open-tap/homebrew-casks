@@ -30,7 +30,7 @@ cask "forkgram" do
     end
   end
 
-  depends_on :macos
+  depends_on macos: :monterey
 
   app "Forkgram.app"
 
