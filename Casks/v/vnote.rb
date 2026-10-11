@@ -16,7 +16,7 @@ cask "vnote" do
   desc "Note-taking platform"
   homepage "https://docs.vnote.fun/"
 
-livecheck do
+  livecheck do
     url :url
     strategy :github_latest
   end
