@@ -17,7 +17,6 @@ cask "vnote" do
     end
   end
 
-  url "https://github.com/vnotex/vnote/releases/download/v#{version}/VNote-#{version}-mac-universal.dmg"
   name "VNote"
   desc "Note-taking platform"
   homepage "https://docs.vnote.fun/"
