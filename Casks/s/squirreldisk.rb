@@ -1,6 +1,6 @@
 cask "squirreldisk" do
-  version "2.5.0"
-  sha256 "d9f23ff1d15ded311f45b6eb2fdaee04e2f998e4b46b48eb09e52d3c1c8d2f0a"
+  version "2.5.1"
+  sha256 "185048f88290b27e5ad8f588602e9767215c6acf9192c7926baa44c91c9515b8"
 
   url "https://github.com/adileo/squirreldisk/releases/download/v#{version}/SquirrelDisk-macOS.dmg"
   name "SquirrelDisk"
