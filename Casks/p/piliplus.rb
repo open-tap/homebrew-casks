@@ -15,7 +15,7 @@ cask "piliplus" do
         match = asset["name"]&.match(regex)
         next if match.blank?
 
-        "#{json["tag_name"],#{match[2]}"
+        "#{json["tag_name"]},#{match[2]}"
       end
     end
   end

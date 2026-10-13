@@ -139,6 +139,9 @@ jobs:
             exit 0
           fi
 
+          FAILED=0
+          FAILED_CASKS=""
+
           for token in $CASK_TOKENS; do
             CASK="$TAP_NAME/$token"
             echo "==> Installing cask: $CASK"
@@ -147,6 +150,9 @@ jobs:
             if ! brew install --verbose --cask "$CASK"; then
               echo "::error:: Failed to install $CASK"
 
+              FAILED=1
+              FAILED_CASKS="$FAILED_CASKS $CASK"
+
               # Create a GitHub issue on failure
               gh issue create \
                 --repo $GITHUB_REPOSITORY \
@@ -154,3 +160,8 @@ jobs:
                 --body "$CASK installation has problems. Check $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
             fi
           done
+
+          if [ "$FAILED" -ne 0 ]; then
+            echo "::error::One or more cask installations failed:$FAILED_CASKS"
+            exit 1
+          fi
