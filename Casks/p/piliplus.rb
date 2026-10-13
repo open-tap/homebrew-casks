@@ -2,7 +2,7 @@ cask "piliplus" do
   version "2.1.6,5472,2.1.6.2"
   sha256 "c869481f037711e2925a40e704b76697e8fc55a10576dd4a1557032d2d5a220b"
 
-  url "https://github.com/bggRGjQaUbCoE/PiliPlus/releases/download/#{version.csv.third || version.csv.first}/PiliPlus_macos_#{version.csv.first}%2B#{version.csv.second}.dmg"
+  url "https://github.com/bggRGjQaUbCoE/PiliPlus/releases/download/#{version.csv.first.major_minor_patch}/PiliPlus_macos_#{version.csv.first}%2B#{version.csv.second}.dmg"
   name "PiliPlus"
   desc "Third-party Bilibili client"
   homepage "https://github.com/bggRGjQaUbCoE/PiliPlus"
