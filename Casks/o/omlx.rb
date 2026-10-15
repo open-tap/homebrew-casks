@@ -1,6 +1,6 @@
 cask "omlx" do
-  version "0.7.1.dev1"
-  sha256 "04fbff0b54bd8656a6684e3051879d7039cb5f4514777527614c54d6d00e0ca2"
+  version "0.7.1.dev2"
+  sha256 "1427acced6b6876427ac8ff7862ea1d961bacc692218f6ddcbd465ea8af9b78a"
 
   url "https://github.com/jundot/omlx/releases/download/v#{version}/oMLX-#{version}-macos26-27.dmg"
   name "oMLX"
