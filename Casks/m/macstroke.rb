@@ -8,8 +8,8 @@ cask "macstroke" do
     end
   end
   on_ventura :or_newer do
-    version "3.1.3"
-    sha256 "005314e2fa70c5ea3db380d29976896f19a7b10d8fd2787d008b077d761383b8"
+    version "3.1.4"
+    sha256 "918fb2cc90477a941db84b5f063f797d67a1596caf050c4f925eb3da2bfbfb34"
   end
 
   url "https://github.com/mtjo/MacStroke/releases/download/#{version}/MacStroke.zip"
