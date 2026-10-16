@@ -1,6 +1,6 @@
 cask "secure-pipes" do
-  version "0.99.11,c67223c50be3604"
-  sha256 "de8b6ad6c42509f2c394997694c13a161dcb4f74edfa87f5a63d7362897538f5"
+  version "0.99.12,a813da7f43bcfc5"
+  sha256 "f64cd685bde0ecae0cae77a8db432d62858e73fcd86be39ee64f01b015ad29e0"
 
   url "https://www.opoet.com/pyro/index.php/files/download/#{version.csv.second}"
   name "Secure Pipes"
@@ -25,15 +25,11 @@ cask "secure-pipes" do
     end
   end
 
-  depends_on :macos
+  depends_on macos: :monterey
 
   app "Secure Pipes.app"
 
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
-  end
-
-  caveats do
-    requires_rosetta
   end
 end
