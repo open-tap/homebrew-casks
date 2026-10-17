@@ -1,6 +1,6 @@
 cask "finewine-patcher" do
-  version "1.2.3"
-  sha256 "02d4a6c2668e49d0c8c14f4ac14aaeff71565ff9f21c1e22c4f3b63ead14ae98"
+  version "1.2.4"
+  sha256 "e4d44d91b550cf6fe923cd906bbb8c2c84cf9ebf9ce16c0d87a5ea1773749037"
 
   url "https://github.com/stoicswe/Endfield_FineWine/releases/download/#{version}/FineWine.Patcher.app.zip"
   name "FineWine Patcher"
