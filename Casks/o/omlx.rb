@@ -9,7 +9,7 @@ cask "omlx" do
 
   livecheck do
     url :url
-    regex(/^v?(\d+(?:\.\d+)+[\w._-]*)$/i)
+    regex(/^v?(\d+(?:\.\d+)+)$/i)
     strategy :github_latest
   end
 
