@@ -7,7 +7,6 @@ cask "goldenpassport" do
   desc "Native implementation of Google Authenticator based on Swift3"
   homepage "https://github.com/stanzhai/GoldenPassport"
 
-
   livecheck do
     url :url
     strategy :github_latest
