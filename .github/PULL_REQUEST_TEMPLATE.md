@@ -7,15 +7,15 @@
 After making any changes to a cask, existing or new, verify:
 
 - [ ] The submission is for [a stable version](https://docs.brew.sh/Acceptable-Casks#stable-versions) or [documented exception](https://docs.brew.sh/Acceptable-Casks#but-there-is-no-stable-version).
-- [ ] `brew audit --cask --online <cask>` is error-free.
-- [ ] `brew style --fix <cask>` reports no offenses.
+- [ ] `brew audit --cask --online open-tap/casks/<cask>` is error-free.
+- [ ] `brew style --fix open-tap/casks/<cask>` reports no offenses.
 
 Additionally, if adding a new cask:
 
 - [ ] Named the cask according to the [token reference](https://docs.brew.sh/Cask-Cookbook#token-reference).
-- [ ] `brew audit --cask --new <cask>` worked successfully.
-- [ ] `HOMEBREW_NO_INSTALL_FROM_API=1 brew install --cask <cask>` worked successfully.
-- [ ] `brew uninstall --cask <cask>` worked successfully.
+- [ ] `brew audit --cask --new open-tap/casks/<cask>` worked successfully.
+- [ ] `HOMEBREW_NO_INSTALL_FROM_API=1 brew install --cask open-tap/casks/<cask>` worked successfully.
+- [ ] `brew uninstall --cask open-tap/casks/<cask>` worked successfully.
 
 -----
 
