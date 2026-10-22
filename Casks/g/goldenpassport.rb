@@ -6,6 +6,7 @@ cask "goldenpassport" do
   name "GoldenPassport"
   desc "Native implementation of Google Authenticator based on Swift3"
   homepage "https://github.com/stanzhai/GoldenPassport"
+  deprecate! date:"2026-10-22",because: :unmaintained
 
   livecheck do
     url :url
