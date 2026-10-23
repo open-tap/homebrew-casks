@@ -12,7 +12,7 @@ cask "goldenpassport" do
     strategy :github_latest
   end
 
-  deprecate! date: "2026-10-22", because: :discontinued
+  deprecate! date: "2026-10-13", because: :discontinued
 
   auto_updates true
   depends_on :macos
