@@ -1,7 +1,7 @@
 cask "pixel-picker" do
   on_ventura :or_older do
     version "1.6.1"
-    sha256 "31584144fc66cafdcd3d6689a69b9ab311621dbe1ee0713f2820a1a2a271903e"
+    sha256 "c09f654018ae52701858e990576e87c32ebcd73c89721f59e280e6b81a61fcdd"
 
     url "https://github.com/acheronfail/pixel-picker/releases/download/#{version}/Pixel.Picker.#{version}.dmg"
 
