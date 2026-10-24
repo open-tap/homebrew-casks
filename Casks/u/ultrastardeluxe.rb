@@ -1,9 +1,9 @@
 cask "ultrastardeluxe" do
   arch arm: "ARM", intel: "x86"
 
-  version "2026.9.0"
-  sha256 arm:   "d7d9ffbf51790067084f564fc6306eda954594710044a26395844753fd4e4e57",
-         intel: "a73c6dba46aa4d24635f25ebbe1408af62596faf369e0eef3cc70a066c9fba34"
+  version "2026.10.0"
+  sha256 arm:   "0832398d699b2c662fc4230e013b5eb8a663e758519e08956fa1a9217fc4acc3",
+         intel: "af8fe4305bd9d81a66bcf871ca1f4a72cbcc49ea20ffa7d56c8441feed14a395"
 
   url "https://github.com/UltraStar-Deluxe/USDX/releases/download/v#{version}/UltraStarDeluxe-mac-#{arch}-#{version}.dmg"
   name "UltraStar Deluxe"
@@ -12,7 +12,7 @@ cask "ultrastardeluxe" do
 
   depends_on :macos
 
-  app "UltraStarDeluxe.app"
+  app "UltraStar Deluxe.app"
 
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
