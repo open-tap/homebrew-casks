@@ -6,12 +6,6 @@ cask "anich" do
   name "AniCh"
   desc "Anime player with danmaku and super-resolution"
   homepage "https://github.com/Sle2p/AniCh"
-
-  livecheck do
-    url :url
-    strategy :github_latest
-  end
-
   depends_on :macos
 
   app "anich.app"
