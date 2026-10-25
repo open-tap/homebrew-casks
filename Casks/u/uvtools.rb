@@ -3,11 +3,11 @@ cask "uvtools" do
   os macos: "osx", linux: "linux"
   url_end = on_system_conditional macos: "zip", linux: "AppImage"
 
-  version "7.1.0"
-  sha256 arm:          "fd6166e12463d219c1d32a98c88d00619df3eeac0bf291202868b78caa27bcbd",
-         intel:        "e12252d53479cf92c4dddb5f5688433b10353b987e17706cdbdfb06d1fd7501f",
-         arm64_linux:  "61e903241386f70ba8f9736dc3aef380893f2bef2ab96c86ccc204bca6d3712d",
-         x86_64_linux: "0b47bb54df049ebfa0a584f995af1b3570a42266e8e37db4c238be0a76b9b18a"
+  version "7.1.1"
+  sha256 arm:          "1de1b19636d250eac4f20fd6b0031d2e63b2d0387f6456990ef70368b6040d07",
+         intel:        "10f39e7942be86fd86270f9b2fd2f9b9c13a077b3d82e602842bd22772d469c6",
+         arm64_linux:  "94204c9664ea2837a88368205b67e316b80fc114acc3f737758d3f1f59379d26",
+         x86_64_linux: "5c56be14e221ccd4c7bf7aa64091db255146dd9692a482d908335df6ef7d6d41"
 
   on_macos do
     depends_on macos: :ventura
