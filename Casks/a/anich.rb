@@ -6,6 +6,7 @@ cask "anich" do
   name "AniCh"
   desc "Anime player with danmaku and super-resolution"
   homepage "https://github.com/Sle2p/AniCh"
+
   depends_on :macos
 
   app "anich.app"
