@@ -14,7 +14,7 @@ cask "cockatrice" do
     end
   end
   on_ventura :or_newer do
-    version "3.1.1,2026-10-10,Reality-Check,3.1.1"
+    version "3.1.2,2026-10-25,Reality-Check,3.1.2"
 
     on_ventura do
       sha256 "4ff6498a42ea4b9bd37e7ab36f5d07076e3fa322ae9c3b1e44448789b52f82d5"
@@ -31,7 +31,7 @@ cask "cockatrice" do
       url "https://github.com/Cockatrice/Cockatrice/releases/download/#{version.csv.second}-Release-#{version.csv.first}/Cockatrice-#{version.csv.third}-#{version.csv.fourth}-macOS14.dmg"
     end
     on_sequoia :or_newer do
-      sha256 "b7460d315d28c533670db41341b367c3900b33368d80ff1cc887d308c37076f7"
+      sha256 "4b23a124f900cf9772ce342095cb8b5538ada1343d59a56dc262b6ff543b51b9"
 
       url "https://github.com/Cockatrice/Cockatrice/releases/download/#{version.csv.second}-Release-#{version.csv.first}/Cockatrice-#{version.csv.third}-#{version.csv.fourth}-macOS15.dmg"
     end
