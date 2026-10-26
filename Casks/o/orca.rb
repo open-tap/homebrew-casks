@@ -12,6 +12,8 @@ cask "orca" do
     strategy :github_latest
   end
 
+ deprecate! date: "2026-10-26", because: :discontinued
+
   depends_on :macos
   container nested: "orca-#{version}.dmg"
 
