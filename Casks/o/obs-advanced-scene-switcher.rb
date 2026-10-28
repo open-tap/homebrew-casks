@@ -17,8 +17,6 @@ cask "obs-advanced-scene-switcher" do
 
   pkg "advanced-scene-switcher-#{version}-macos-universal.pkg"
 
-  # No zap stanza required
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -29,4 +27,6 @@ cask "obs-advanced-scene-switcher" do
             ],
             delete:  "/Library/Application Support/obs-studio/plugins/advanced-scene-switcher.plugin",
             rmdir:   "/Library/Application Support/obs-studio/plugins"
+
+  zap :not_required
 end

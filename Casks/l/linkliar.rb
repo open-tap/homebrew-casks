@@ -16,8 +16,6 @@ cask "linkliar" do
 
   app "LinkLiar.app"
 
-  # No zap stanza required
-
   postflight_steps do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
@@ -31,4 +29,6 @@ cask "linkliar" do
               "/Library/Application Support/io.github.halo.linkdaemon",
               "/Library/Application Support/LinkLiar",
             ]
+
+  zap :not_required
 end

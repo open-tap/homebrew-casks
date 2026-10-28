@@ -22,7 +22,7 @@ cask "sqlworkbenchj" do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
 
-  # No zap stanza required
+  zap :not_required
 
   caveats do
     depends_on_java "11+"

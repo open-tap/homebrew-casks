@@ -26,5 +26,6 @@ cask "tidelift" do
       run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
     end
   end
-  # No zap stanza required
+
+  zap :not_required
 end

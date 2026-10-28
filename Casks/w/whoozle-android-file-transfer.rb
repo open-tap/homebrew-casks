@@ -17,7 +17,7 @@ cask "whoozle-android-file-transfer" do
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
 
-  # No zap stanza required
+  zap :not_required
 
   caveats do
     requires_rosetta
