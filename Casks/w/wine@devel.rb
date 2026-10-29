@@ -1,6 +1,6 @@
 cask "wine@devel" do
-  version "11.18"
-  sha256 "aa0ea4c82e636ae7bca2076387cb0a5affa26509ad13f119ecd0d62bd7ba6f82"
+  version "11.20"
+  sha256 "33bbe09ac5d867d75d6d3aef23b66d25ff81cb62c33bc3f405c138bbf7195ad7"
 
   # Current winehq packages are deprecated and these are packages from
   # the new maintainers that will eventually be pushed to Winehq.
@@ -34,7 +34,7 @@ cask "wine@devel" do
     "wine-stable",
     "wine@staging",
   ]
-  depends_on cask: "gstreamer-runtime"
+  depends_on cask: "open-tap/casks/gstreamer-runtime"
   depends_on :macos
 
   app "Wine Devel.app"
