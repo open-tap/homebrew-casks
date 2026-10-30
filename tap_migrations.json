@@ -1,3 +1,4 @@
 {
-  "ntfstool": "homebrew/cask"
+  "ntfstool": "homebrew/cask",
+  "secure-pipes": "homebrew/cask"
 }
