@@ -1,15 +1,15 @@
 cask "mindforger" do
-  version "2.0.0-20240217.170738,5152"
-  sha256 "8fa3b483ad8a0b6dea49a6e227d87922504de101d4f0c80c8c3310149925b423"
+  version "2.6.0,20261028.170459"
+  sha256 "efc990e09ef001a3b8bf4b139a30fb8c768c9bc5bf42fc78dd1ff7d50b19c992"
 
-  url "https://github.com/dvorka/mindforger/releases/download/#{version.csv.first.split("-").first}/mindforger-#{version.csv.first}-qt#{version.csv.second}-intel.dmg"
+  url "https://github.com/dvorka/mindforger/releases/download/#{version.csv.first}/mindforger-#{version.csv.first}-#{version.csv.second}-intel.dmg"
   name "MindForger"
   desc "Thinking notebook and Markdown IDE"
   homepage "https://www.mindforger.com/"
 
   livecheck do
     url :url
-    regex(/^mindforger[._-]v?(\d+(?:[.-]\d+)+)-qt(\d+(?:[.-]\d+)*)-intel\.dmg$/i)
+    regex(/^mindforger[._-]v?(\d+(?:\.\d+)+)[._-](\d+(?:\.\d+)*)[._-]intel\.dmg$/i)
     strategy :github_latest do |json, regex|
       json["assets"]&.map do |asset|
         match = asset["name"]&.match(regex)
