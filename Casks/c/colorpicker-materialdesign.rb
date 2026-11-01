@@ -12,7 +12,7 @@ cask "colorpicker-materialdesign" do
   colorpicker "MaterialDesignColorPicker.colorPicker"
 
   postflight_steps do
-    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"], sudo: true
   end
 
   zap :not_required
