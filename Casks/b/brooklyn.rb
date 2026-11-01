@@ -12,8 +12,7 @@ cask "brooklyn" do
   screen_saver "Brooklyn.saver"
 
   postflight_steps do
-    run "/bin/chmod", args: ["-R", "+w", "{{staged_path}}/Brooklyn.saver"]
-    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"], sudo: true
   end
 
   zap trash: "~/Library/Screen Savers/Brooklyn.saver"
