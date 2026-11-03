@@ -12,7 +12,7 @@ cask "epoch-flip-clock" do
   screen_saver "Epoch Flip Clock.saver"
 
   postflight_steps do
-    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
+    run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"], sudo: true
   end
 
   zap :not_required
