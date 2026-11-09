@@ -1,6 +1,6 @@
 cask "steam-plus-plus" do
-  version "3.1.0"
-  sha256 "7ede8adeb8a6f311c70193a1e3c64f37852555acabadf4bc4173196be0ab35ab"
+  version "3.2.0"
+  sha256 "b688605848bc94f6b63a967d6a5bccffff9d462172ced674980ab5e4828d12d8"
 
   url "https://github.com/BeyondDimension/SteamTools/releases/download/#{version}/Steam++_v#{version}_macos.dmg"
   name "Steam++"
@@ -12,7 +12,7 @@ cask "steam-plus-plus" do
     strategy :github_latest
   end
 
-  depends_on macos: :monterey
+  depends_on macos: :sonoma
 
   app "Steam++.app"
 
