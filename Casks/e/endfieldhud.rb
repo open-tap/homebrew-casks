@@ -1,6 +1,6 @@
 cask "endfieldhud" do
-  version "1.3.0,19"
-  sha256 "f4894df02d7f1f7a0b22a30d16e6aec3ee6864e7417af1fdeacc119e58cf9886"
+  version "1.3.1,20"
+  sha256 "94884a4960063bb0d89b98343fdc0f4ba6a5356f44ce044c2dfde4dee8ded34a"
 
   url "https://github.com/DDDuoDuo/EndfieldHUD/releases/download/v#{version.csv.first}/EndfieldHUD-#{version.csv.first}-build#{version.csv.second}-macOS.dmg"
   name "EndfieldHUD"
