@@ -10,9 +10,9 @@ cask "chromium-gost" do
     end
   end
   on_ventura :or_newer do
-    version "156.0.8078.88"
-    sha256 arm:   "a14bf4b03eca09baad1c6ce34b09d8be5817931ac2fde22165a4cf28a0aff828",
-           intel: "b099ee1e3b107c0bab400d99f19e662ad3a2eb9adf57abbada52f409d800389c"
+    version "156.0.8078.96"
+    sha256 arm:   "7c69c7001fc64fd4a4f2896c600f54500a44a9f4102af2cd6e8db333b89abcbc",
+           intel: "c149f83f94d41af277bbbb30becee01ecbddf0260a65436fbef9e29e738df5eb"
     livecheck do
       url :url
       strategy :github_latest
