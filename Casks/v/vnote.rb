@@ -2,7 +2,7 @@ cask "vnote" do
   version "4.14.4"
 
   on_monterey :or_older do
-    sha256 "97abd1b66f87009e774f3fdea49b678dfbe3589ee87e7eea883b4493e2c6f569"
+    sha256 "c5661cebd9592350e832e9e0898e4c8e66998dec3c7140ba272cf75d77ab825a"
 
     url "https://github.com/vnotex/vnote/releases/download/v#{version}/VNote-#{version}-mac-universal-macos12.dmg"
   end
