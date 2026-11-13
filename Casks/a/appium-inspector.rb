@@ -11,9 +11,9 @@ cask "appium-inspector" do
     end
   end
   on_ventura :or_newer do
-    version "2026.9.2"
-    sha256 arm:   "87ca4fcdec4c36165870e42748ecfe6cc32f4506f8a776875b00e8b1315edfa2",
-           intel: "87ca4fcdec4c36165870e42748ecfe6cc32f4506f8a776875b00e8b1315edfa2"
+    version "2026.11.5"
+    sha256 arm:   "6b8783e8f080d17e0417f807b9e0bc3575b0c7483f8f69b7269979db4128689c",
+           intel: "6b8783e8f080d17e0417f807b9e0bc3575b0c7483f8f69b7269979db4128689c"
 
     # Not every GitHub release provides a file for macOS, so we check multiple
     # recent releases instead of only the "latest" release.
