@@ -1,6 +1,6 @@
 cask "animeflow" do
-  version "2.6.7"
-  sha256 "4f4d7d76c68d486de670cc59b6d0b1cf2245dee3bd1ca13e132e0a34ccca78db"
+  version "2.6.8"
+  sha256 "e6ba03a53f31fc293bd2c2c2ce06adc67152de855753d1d438d70d783cde5933"
 
   url "https://github.com/openAnimeFlow/AnimeFlow/releases/download/v#{version}/AnimeFlow-macos-#{version}.dmg"
   name "AnimeFlow"
