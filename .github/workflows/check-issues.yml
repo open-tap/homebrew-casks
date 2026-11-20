@@ -8,6 +8,8 @@ on:
       - edited
       - reopened
 
+permissions: {}
+
 defaults:
   run:
     shell: bash -euo pipefail {0}
@@ -20,11 +22,10 @@ jobs:
   manage:
     # Restrict this write-token workflow to repositories with supported templates.
     # The first step also fails if a repository checkout has occurred.
-    if: >
-      github.event.issue.user.login != github.repository_owner &&
-      github.event.issue.user.login != 'github-actions[bot]' &&
-      github.event.issue.user.login != 'dependabot[bot]' &&
-      github.event.issue.user.login != 'cask-ci[bot]'
+    if: >-
+      github.repository == 'open-tap/homebrew-casks' &&
+      github.event.issue.user.login != 'cask-ci[bot]' &&
+      github.event.issue.user.login != 'dependabot[bot]'
     runs-on: ubuntu-latest
     permissions:
       # Read the trusted base-branch issue templates and checker through the API;
@@ -32,18 +33,9 @@ jobs:
       contents: read
       issues: write
     env:
+      GH_TOKEN: ${{ github.token }}
       ISSUE_NUMBER: ${{ github.event.issue.number }}
     steps:
-      - name: Generate Github app token
-        id: generate-token
-        uses: actions/create-github-app-token@v3
-        with:
-          app-id: ${{ secrets.CASK_CI_APP_ID }}
-          private-key: ${{ secrets.CASK_CI_PRIVATE_KEY }}
-
-      - name: Set Github app token
-        run: echo "GH_TOKEN=${{ steps.generate-token.outputs.token }}" >> $GITHUB_ENV
-
       - name: Verify no checkout
         run: |
           if git -C "${GITHUB_WORKSPACE:?}" rev-parse --is-inside-work-tree &>/dev/null
@@ -63,9 +55,6 @@ jobs:
 
       - name: Fetch issue templates
         run: |
-          # Validate against the brew, homebrew-core and homebrew-cask templates so
-          # issues transferred between these repositories are not closed for using a
-          # sibling repository's (valid) template.
           template_repositories=("${GITHUB_REPOSITORY}")
           for repo in "${template_repositories[@]}"
           do
@@ -111,7 +100,7 @@ jobs:
         id: comments
         run: |
           gh api --paginate "repos/${GITHUB_REPOSITORY:?}/issues/${ISSUE_NUMBER:?}/comments" \
-            --jq '.[] | select(.user.login == "cask-ci[bot]" and (.body | contains("<!-- incomplete-issue-template -->"))) | .id' \
+            --jq '.[] | select(.user.login == "github-actions[bot]" and (.body | contains("<!-- incomplete-issue-template -->"))) | .id' \
             >"${RUNNER_TEMP:?}/check-issues/incomplete-template-comment-ids"
           if [[ -s "${RUNNER_TEMP}/check-issues/incomplete-template-comment-ids" ]]
           then
@@ -122,7 +111,7 @@ jobs:
 
       - name: Find issue closer
         id: closer
-        if: >
+        if: >-
           github.event.issue.state == 'closed' &&
           steps.template.outputs.complete_template == 'true'
         run: |
@@ -130,17 +119,17 @@ jobs:
           echo "closed_by=${closed_by}" >>"${GITHUB_OUTPUT:?}"
 
       - name: Reopen completed issue
-        if: >
+        if: >-
           github.event.issue.state == 'closed' &&
           steps.template.outputs.complete_template == 'true' &&
-          steps.closer.outputs.closed_by == 'cask-ci[bot]' &&
+          steps.closer.outputs.closed_by == 'github-actions[bot]' &&
           steps.comments.outputs.has_incomplete_template_comment == 'true'
         run: |
           gh api --method PATCH "repos/${GITHUB_REPOSITORY:?}/issues/${ISSUE_NUMBER:?}" \
             -f state=open
 
       - name: Remove resolved template comments
-        if: >
+        if: >-
           steps.template.outputs.complete_template == 'true' &&
           steps.comments.outputs.has_incomplete_template_comment == 'true'
         run: |
@@ -151,7 +140,7 @@ jobs:
           done <"${RUNNER_TEMP:?}/check-issues/incomplete-template-comment-ids"
 
       - name: Comment on incomplete issue
-        if: >
+        if: >-
           github.event.issue.state != 'closed' &&
           steps.template.outputs.complete_template == 'false' &&
           steps.comments.outputs.has_incomplete_template_comment != 'true'
@@ -171,7 +160,7 @@ jobs:
             )"
 
       - name: Close incomplete issue
-        if: >
+        if: >-
           github.event.issue.state != 'closed' &&
           steps.template.outputs.complete_template == 'false'
         run: |
