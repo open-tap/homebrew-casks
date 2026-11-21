@@ -1,6 +1,6 @@
 cask "finewine-patcher" do
-  version "2.0.0"
-  sha256 "36f16a4a7646d1ca6a64dc267cfc5e73cc686ae71d3bf1d7398d74d2909d2ee8"
+  version "3.0.0"
+  sha256 "47fb91986aef867a81539d6e96d1afd635afeacac7eb4b8337c8fa5a52a223a2"
 
   url "https://github.com/stoicswe/Endfield_FineWine/releases/download/#{version}/FineWine.Patcher.app.zip"
   name "FineWine Patcher"
@@ -13,7 +13,7 @@ cask "finewine-patcher" do
   end
 
   depends_on arch: :arm64
-  depends_on macos: :ventura
+  depends_on macos: :sequoia
 
   app "FineWine Patcher.app"
 
