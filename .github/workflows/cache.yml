@@ -7,25 +7,25 @@ on:
   schedule:
     - cron: "0 */6 * * *" # every 6 hours
 
-defaults:
-  run:
-    shell: bash -xeuo pipefail {0}
-
 concurrency:
   group: cache
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
   update:
+    if: github.repository == 'open-tap/homebrew-casks'
     strategy:
       matrix:
         runner:
-          - macos-14
           - macos-15
           - macos-26
+          - ubuntu-latest
     runs-on: ${{ matrix.runner }}
-    permissions:
-      contents: read
+    env:
+      HOMEBREW_DEVELOPER: 1
     steps:
       - name: Set up Homebrew
         id: set-up-homebrew
