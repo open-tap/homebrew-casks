@@ -1,3 +1,4 @@
+# This file is synced from the `.github` repository, do not modify it directly.
 name: Actionlint
 
 on:
@@ -19,8 +20,34 @@ env:
   HOMEBREW_NO_AUTO_UPDATE: 1
   HOMEBREW_NO_ENV_HINTS: 1
 
+permissions: {}
+
 jobs:
+  brew_ruby:
+    name: No brew ruby
+    if: github.repository == 'open-tap/homebrew-casks'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Check for `brew ruby`
+        run: |
+          status=0
+          git grep --line-number --word-regexp --extended-regexp 'brew[[:space:]]+ruby' -- \
+            .github ':(glob)**/action.yml' ':(glob)**/action.yaml' ':!.github/workflows/actionlint.yml' || status=$?
+          if [[ "${status}" -eq 0 ]]
+          then
+            echo "::error::Use a dedicated brew command or Homebrew/actions/setup-ruby instead of \`brew ruby\`."
+            exit 1
+          fi
+          [[ "${status}" -eq 1 ]]
+
   workflow_syntax:
+    if: github.repository == 'open-tap/homebrew-casks'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -43,12 +70,12 @@ jobs:
 
       - run: zizmor --format sarif . > results.sarif
         env:
-          GH_TOKEN: ${{ secrets.GH_ACTION_PAT }}
+          GH_TOKEN: ${{ github.token }}
 
       - name: Upload SARIF file
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         # We can't use the SARIF file when triggered by `merge_group` so we don't upload it.
-        if: ${{ always() && github.event_name != 'merge_group' }}
+        if: always() && github.event_name != 'merge_group'
         with:
           name: results.sarif
           path: results.sarif
@@ -64,7 +91,7 @@ jobs:
 
           echo "::add-matcher::$HOME/actionlint-matcher.json"
 
-      - run: actionlint -ignore "SC2086" -ignore "SC2016"
+      - run: actionlint
 
   upload_sarif:
     needs: workflow_syntax
