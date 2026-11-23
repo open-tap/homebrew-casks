@@ -4,28 +4,32 @@ on:
   workflow_dispatch:
     inputs:
       casks:
-        description: Custom list of casks to bump
+        description: Custom list of casks to livecheck and bump if outdated
         required: false
   schedule:
     # Every 3 hours 23 minutes past the hour
     - cron: "23 */3 * * *"
 
-defaults:
-  run:
-    shell: bash -xeuo pipefail {0}
+concurrency:
+  group: autobump-${{ inputs.casks && github.run_id || 'scheduled' }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
 
 jobs:
   autobump:
-    runs-on: macos-26
-    permissions:
-      contents: write
-      pull-requests: write
+    if: github.repository == 'open-tap/homebrew-casks'
     env:
       HOMEBREW_DEVELOPER: 1
+    runs-on: macos-26
     steps:
       - name: Set up Homebrew
         id: set-up-homebrew
         uses: Homebrew/actions/setup-homebrew@63a2d4d8d4193eab3e62b1b782ff3ab8408f5b29 # 2026.11.09.1
+        with:
+          core: true
+          cask: false
 
       - name: Configure Git user
         id: git-user-config
@@ -33,76 +37,41 @@ jobs:
         with:
           username: ${{ (github.event_name == 'workflow_dispatch' && github.actor) || 'cask-ci[bot]' }}
 
-      - name: Generate Github app token
+      - name: Generate GitHub App token
         id: generate-token
-        uses: actions/create-github-app-token@v3
+        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3
         with:
           app-id: ${{ secrets.CASK_CI_APP_ID }}
           private-key: ${{ secrets.CASK_CI_PRIVATE_KEY }}
+          permission-contents: write
+          permission-pull-requests: write
 
       - name: Bump casks
         id: autobump
         env:
+          HOMEBREW_TEST_BOT_AUTOBUMP: 1
           HOMEBREW_GITHUB_API_TOKEN: ${{ steps.generate-token.outputs.token }}
           HOMEBREW_GIT_COMMITTER_NAME: ${{ steps.git-user-config.outputs.name }}
           HOMEBREW_GIT_COMMITTER_EMAIL: ${{ steps.git-user-config.outputs.email }}
           TAP_NAME: ${{ steps.set-up-homebrew.outputs.tap-name }}
           CASKS: ${{ inputs.casks }}
-          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
         continue-on-error: true
         run: |
+          BREW_BUMP=(brew bump --no-fork --open-pr --casks)
           if [[ -n "${CASKS-}" ]]; then
-            for cask in $CASKS; do
-              cask="$TAP_NAME/$cask"
-              echo "==> Checking latest version for $cask via livecheck ..."
-              
-              # Run livecheck for this specific cask and only return updates if a newer version exists
-              LIVECHECK_JSON=$(brew livecheck "$cask" --newer-only --extract-plist --json 2>/dev/null || echo "[]")
-              
-              # Extract the latest version from the JSON payload
-              LATEST_VERSION=$(echo "$LIVECHECK_JSON" | jq -r '.[] | .version.latest' 2>/dev/null || true)
-
-              # Check if a new version was found
-              if [[ -z "${LATEST_VERSION}" ]]; then
-                echo "==> $cask is already up-to-date or livecheck failed."
-                continue
+            read -r -a casks <<<"${CASKS//,/ }"
+            qualified_casks=()
+            for cask in "${casks[@]}"
+            do
+              if [[ "$cask" == */* ]]; then
+                [[ "$cask" == "$TAP_NAME/"* ]] || exit 1
+                qualified_casks+=("$cask")
+              else
+                qualified_casks+=("$TAP_NAME/$cask")
               fi
-
-              echo "==> New version found! Bumping $cask to version $LATEST_VERSION ..."
-              # Bump the cask explicitly providing the version option
-              brew bump-cask-pr \
-                --no-fork \
-                --version="${LATEST_VERSION}" \
-                --debug \
-                "$cask" || echo "::warning::Bump failed for $cask"
             done
-            exit 0
+            "${BREW_BUMP[@]}" "${qualified_casks[@]}"
+          else
+            # Third-party taps can bump the whole tap without an autobump list.
+            "${BREW_BUMP[@]}" --tap="$TAP_NAME"
           fi
-
-          echo "==> Checking for outdated casks via livecheck ..."
-          OUTDATED_JSON=$(brew livecheck --tap="$TAP_NAME" --newer-only --extract-plist --json 2>/dev/null || echo "[]")
-          
-          # Extracts "name:version" pairs from the JSON array
-          OUTDATED_PAIRS=$(echo "$OUTDATED_JSON" | jq -r '.[] | select(.version.latest != null and .version.latest != "null" and .version.latest != "") | "\(.cask):\(.version.latest)"' | paste -sd " " -)
-          
-          if [[ -z "${OUTDATED_PAIRS// /}" ]]; then
-            echo "No outdated casks found."
-            exit 0
-          fi
-          
-          echo "Outdated packages found: $OUTDATED_PAIRS"
-          
-          for pair in ${OUTDATED_PAIRS}; do
-            # Split the string by the colon delimiter
-            cask="$TAP_NAME/${pair%%:*}"
-            version="${pair##*:}"
-            
-            echo "==> New version found! Bumping $cask to version $version ..."
-            
-            # Executing the bump with the extracted version number, force flag, and quota check bypass
-            brew bump-cask-pr \
-              --no-fork \
-              --version="${version}" \
-              --debug \
-              "$cask" || echo "::warning::Bump failed for $cask"
-          done
