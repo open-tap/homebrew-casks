@@ -2,8 +2,8 @@ cask "assinador-serpro" do
   arch arm: "arm64", intel: "x86_64"
 
   on_arm do
-    version "4.5.7"
-    sha256 "f4bf5d9d8af99adbf9819e3884709c729a64ee86c9a214eb7777270c2c887ea0"
+    version "4.6.0"
+    sha256 "daa5c144a58fa42c828b1f6b66c330cf7080873b3f27c9860407580f56edf66d"
   end
   on_intel do
     version "4.4.0"
