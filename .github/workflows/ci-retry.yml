@@ -5,9 +5,10 @@ on:
     - cron: "0 */1 * * *"
   workflow_dispatch:
 
-defaults:
-  run:
-    shell: bash -xeuo pipefail {0}
+permissions:
+  contents: read
+  pull-requests: read
+  actions: write
 
 concurrency:
   group: ci-retry
@@ -17,15 +18,11 @@ jobs:
   retry-failed:
     name: Re-run failed jobs for labeled PRs
     runs-on: ubuntu-slim
-    permissions:
-      contents: read
-      pull-requests: read
-      actions: write
     timeout-minutes: 10
     steps:
       - name: Re-run failed jobs
         env:
-          GH_TOKEN: ${{ secrets.GH_ACTION_PAT }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO: ${{ github.repository }}
         run: |
           set -euo pipefail
