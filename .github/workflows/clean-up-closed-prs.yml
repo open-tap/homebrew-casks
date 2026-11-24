@@ -20,13 +20,40 @@ env:
   PR: ${{ github.event.number }}
 
 jobs:
+  cancel-tests:
+    if: >
+      github.repository == 'open-tap/homebrew-casks' &&
+      !github.event.pull_request.merged
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/homebrew/brew:main
+    permissions:
+      contents: read
+      actions: write # for `gh run cancel`
+      checks: read # for `GitHub.get_workflow_run`
+    steps:
+      - name: Cancel tests
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          for status in queued in_progress; do
+            gh api \
+              "repos/${{ github.repository }}/actions/runs?head_sha=${HEAD_SHA}&status=${status}" \
+              --jq '.workflow_runs[].id' | while read -r run_id; do
+                if [ -n "$run_id" ] && [ "$run_id" != "${{ github.run_id }}" ]; then
+                  echo "::notice ::Cancelling $status run $run_id on closed PR #$PR"
+                  gh run cancel "$run_id" --repo "${{ github.repository }}" || true
+                fi
+              done
+          done
+
   delete-branch:
     if: >
+      github.repository == 'open-tap/homebrew-casks' &&
       github.event.pull_request.head.repo.full_name == github.repository &&
-      (github.actor == github.repository_owner ||
-       github.actor == 'github-actions[bot]' ||
-       github.actor == 'dependabot[bot]' ||
-       github.actor == 'cask-ci[bot]')
+      !github.event.pull_request.merged
     runs-on: ubuntu-latest
     # Ignore errors as branch may already be deleted
     continue-on-error: true
@@ -35,7 +62,7 @@ jobs:
     steps:
       - name: Delete branch
         env:
-          GH_TOKEN: ${{ secrets.GH_ACTION_PAT }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: ${{ github.event.pull_request.head.ref }}
         run: |
           gh api \
