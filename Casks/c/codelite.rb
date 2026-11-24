@@ -43,7 +43,8 @@ cask "codelite" do
           match = page.match(regex)
           next if match.blank?
 
-          "#{match[1]}#{match[2].presence || ".0"}"
+          patch_version = match[2].presence || ".0"
+          "#{match[1]}#{patch_version}"
         end
       end
     end
