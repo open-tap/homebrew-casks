@@ -15,7 +15,11 @@ cask "quickhash" do
       /\?(?:[^"' >]+?&)?wpdmdl=([^&"' >]+)
     }imx)
     strategy :page_match do |page, regex|
-      page.scan(regex).map { |match| "#{match[1].tr("-", ".")},#{match[2]},#{match[0].tr("-/", ",")}" }
+      page.scan(regex).map do |match|
+        release_version = match[1].tr("-", ".")
+        source_version = match[0].tr("-/", ",")
+        "#{release_version},#{match[2]},#{source_version}"
+      end
     end
   end
 
