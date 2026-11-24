@@ -32,21 +32,22 @@ jobs:
       actions: write # for `gh run cancel`
       checks: read # for `GitHub.get_workflow_run`
     steps:
-      - name: Check CI status
-        id: check
-        env:
-          HOMEBREW_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          brew check-ci-status --cancel "$PR"
-
       - name: Cancel tests
-        if: fromJson(steps.check.outputs.cancellable-run-id) != null
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          RUN_ID: ${{ fromJson(steps.check.outputs.cancellable-run-id) }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PR: ${{ github.event.pull_request.number }}
         run: |
-          echo "::notice ::Cancelling tests on closed PR #$PR"
-          gh run cancel "$RUN_ID"
+          for status in queued in_progress; do
+            gh api \
+              "repos/${{ github.repository }}/actions/runs?head_sha=${HEAD_SHA}&status=${status}" \
+              --jq '.workflow_runs[].id' | while read -r run_id; do
+                if [ -n "$run_id" ] && [ "$run_id" != "${{ github.run_id }}" ]; then
+                  echo "::notice ::Cancelling $status run $run_id on closed PR #$PR"
+                  gh run cancel "$run_id" --repo "${{ github.repository }}" || true
+                fi
+              done
+          done
 
   delete-branch:
     if: >
