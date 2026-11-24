@@ -2,7 +2,8 @@ cask "treesheets" do
   version "3523"
   sha256 "c1203bca7833c468cdc910287f8c72d6d4bcbdb33a6087b748bc19ae2ab1a192"
 
-  url "https://github.com/aardappel/treesheets/releases/download/#{version.csv.second || version.csv.first}/TreeSheets-#{version.csv.first}-Darwin.dmg"
+  release_version = version.csv.second || version.csv.first
+  url "https://github.com/aardappel/treesheets/releases/download/#{release_version}/TreeSheets-#{version.csv.first}-Darwin.dmg"
   name "TreeSheets"
   desc "Hierarchical spreadsheet and outline application"
   homepage "https://strlen.com/treesheets/"
@@ -15,7 +16,11 @@ cask "treesheets" do
         match = asset["browser_download_url"]&.match(regex)
         next if match.blank?
 
-        (match[2] == match[1]) ? match[1] : "#{match[2]},#{match[1]}"
+        if match[2] == match[1]
+          match[1]
+        else
+          "#{match[2]},#{match[1]}"
+        end
       end
     end
   end
