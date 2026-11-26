@@ -13,13 +13,14 @@ After making any changes to a cask, existing or new, verify:
 Additionally, if adding a new cask:
 
 - [ ] Named the cask according to the [token reference](https://docs.brew.sh/Cask-Cookbook#token-reference).
+- [ ] Checked the cask was not [already refused](https://github.com/search?q=repo%3Aopen-tap%2Fhomebrew-casks+is%3Aclosed+is%3Aunmerged+&type=pullrequests) (add your cask's name to the end of the search field).
 - [ ] `brew audit --cask --new open-tap/casks/<cask>` worked successfully.
 - [ ] `HOMEBREW_NO_INSTALL_FROM_API=1 brew install --cask open-tap/casks/<cask>` worked successfully.
 - [ ] `brew uninstall --cask open-tap/casks/<cask>` worked successfully.
 
 -----
 
-- [ ] I did not use AI/LLM to create this PR, or I disclosed the tool/model below and reviewed its output, including [`zap` stanza](https://docs.brew.sh/Cask-Cookbook#stanza-zap) paths; I did not attribute commits to AI and will answer maintainer questions and review comments myself without AI/LLM.
+- [ ] I did not use AI/LLM to create this PR, or I disclosed the tool/model below and reviewed its output, including [`zap` stanza](https://docs.brew.sh/Cask-Cookbook#stanza-zap) paths; every commit has a human author or co-author and I will answer maintainer questions and review comments myself without AI/LLM.
 
 <!-- If AI was used, explain below how it was used and how you verified the changes. Non-maintainers may only have one AI-assisted PR open at a time. See https://docs.brew.sh/Responsible-AI-Usage for guidance. -->
 
