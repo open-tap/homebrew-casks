@@ -1,6 +1,6 @@
 cask "anich" do
-  version "1.5.27"
-  sha256 "0ee4d76f995259f0b1dc86adca332d6c5b1ccdbea7a51957366763c3393e16c4"
+  version "1.5.28"
+  sha256 "4454b8cfef67db0f0a93bd7f718f83365f1e6e443dab23ca24a9243772fda936"
 
   url "https://github.com/Sle2p/AniCh/releases/download/#{version}/anich-macos-#{version}.dmg"
   name "AniCh"
