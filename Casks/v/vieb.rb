@@ -1,9 +1,9 @@
 cask "vieb" do
   arch arm: "arm64-"
 
-  version "12.12.0"
-  sha256 arm:   "0129ce5bb1dacaaf9329acab3d2a0a23301995f467d36709c505095ee2d6a9cc",
-         intel: "5ce98e04bae2ef0ae1b5916904270c475b562c60aec18a250e82ee16fee906e5"
+  version "12.12.1"
+  sha256 arm:   "3cafffdb159528ae99742caf7f522bc82e4b837bf01885aabf11fd7e8486a649",
+         intel: "2d15d225c46675cea39ac1b3d8cbb3c3499cd17491bab75b7865273dc13a1150"
 
   url "https://github.com/Jelmerro/Vieb/releases/download/#{version}/Vieb-#{version}-#{arch}mac.zip"
   name "Vieb"
@@ -20,6 +20,8 @@ cask "vieb" do
     run "/bin/chmod", args: ["-R", "+w", "{{staged_path}}/.homebrew-command-wrappers"]
     run "/usr/bin/xattr", args: ["-r", "-d", "com.apple.quarantine", "{{staged_path}}"]
   end
+
+  uninstall quit: "com.github.Jelmerro.Vieb"
 
   zap trash: [
     "~/Library/Application Support/Vieb",
