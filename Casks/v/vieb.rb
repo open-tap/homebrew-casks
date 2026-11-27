@@ -24,7 +24,9 @@ cask "vieb" do
   uninstall quit: "com.github.Jelmerro.Vieb"
 
   zap trash: [
+    "~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/com.github.jelmerro.vieb.sfl*",
     "~/Library/Application Support/Vieb",
     "~/Library/Caches/Vieb",
+    "~/Library/Preferences/com.github.Jelmerro.Vieb.plist",
   ]
 end
