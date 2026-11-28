@@ -20,7 +20,9 @@ cask "lx-music" do
   end
 
   zap trash: [
+    "~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/cn.toside.music.desktop.sfl*",
     "~/Library/Application Support/lx-music-desktop",
     "~/Library/Logs/lx-music-desktop",
+    "~/Library/Preferences/cn.toside.music.desktop.plist",
   ]
 end
